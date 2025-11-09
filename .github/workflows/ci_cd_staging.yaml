@@ -1,0 +1,37 @@
+name: Deploy Hono Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      # Checkout the repo
+      - uses: actions/checkout@v4
+
+      # Authenticate to GCP using your service account secret
+      - uses: google-github-actions/auth@v1
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      # Deploy to Cloud Run
+      - id: deploy
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: "my-hono-backend"                    # Change to your desired service name
+          project_id: "${{ secrets.GCP_PROJECT_ID }}"
+          region: "us-central1"                         # Choose your region
+          source: "."                                   # Use the repo root
+          revision_traffic: "LATEST=100"
+          flags: --allow-unauthenticated --memory=512Mi
+
+      # Test the deployment (optional)
+      - name: "Ping Cloud Run"
+        run: curl "${{ steps.deploy.outputs.url }}"

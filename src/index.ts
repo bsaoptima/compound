@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 
 const app = new Hono();
+const port = process.env.PORT || 8080;
 
 app.get('/', (c) => c.text('Hello Hono!'));
 
-app.listen(3000, () => {
-  console.log('Hono server running on http://localhost:3000');
-});
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
