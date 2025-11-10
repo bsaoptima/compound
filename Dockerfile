@@ -1,23 +1,18 @@
-# Use Node 20 LTS
-FROM node:20
-
+# Use official Node.js runtime as base image
+FROM node:18-alpine
 # Set working directory
-WORKDIR /app
-
-# Copy package.json and package-lock.json
+WORKDIR /usr/src/app
+# Copy package files
 COPY package*.json ./
-
-# Install production dependencies
-RUN npm install --production
-
-# Copy source code
+# Install dependencies
+RUN npm ci --only=production
+# Copy application code
 COPY . .
-
-# Build TypeScript
-RUN npm run build
-
-# Expose port (Cloud Run uses 8080 by default)
+# Expose port
 EXPOSE 8080
-
-# Start the app
-CMD ["node", "dist/index.js"]
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nodejs -u 1001
+USER nodejs
+# Start the application
+CMD ["npm", "start"]

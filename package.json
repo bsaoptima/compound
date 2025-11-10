@@ -2,12 +2,12 @@
   "name": "compound",
   "version": "1.0.0",
   "description": "Hono + TypeScript backend",
-  "main": "dist/index.js",
+  "main": "index.tx",
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node index.ts"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.7.4",
