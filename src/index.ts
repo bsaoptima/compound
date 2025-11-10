@@ -1,9 +1,10 @@
 import { Hono } from "hono";
+import { serve } from "hono/node-server";
 
 const app = new Hono();
-const port = process.env.PORT || 8080;
-//comment
+
 app.get('/', (c) => c.text('Hello Hono!'));
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const port = Number(process.env.PORT) || 8080;
 
+serve(app, { port });
