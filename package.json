@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "tsc",
-    "start": "node index.ts"
+    "start": "node dist/index.ts"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.7.4",
